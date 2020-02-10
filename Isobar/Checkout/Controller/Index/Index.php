@@ -26,7 +26,12 @@ class Index extends \Magento\Checkout\Controller\Index\Index
     /**
      * @var Data
      */
-    private $helperData;
+    private $isobarHelper;
+
+    /**
+     * @var \Magento\Checkout\Helper\Data
+     */
+    private $checkoutHelper;
 
     /**
      * Index constructor.
@@ -44,7 +49,8 @@ class Index extends \Magento\Checkout\Controller\Index\Index
      * @param LayoutFactory $resultLayoutFactory
      * @param RawFactory $resultRawFactory
      * @param JsonFactory $resultJsonFactory
-     * @param Data $helperData
+     * @param Data $isobarHelper
+     * @param \Magento\Checkout\Helper\Data $checkoutHelper
      */
     public function __construct(
         Context $context,
@@ -61,7 +67,8 @@ class Index extends \Magento\Checkout\Controller\Index\Index
         LayoutFactory $resultLayoutFactory,
         RawFactory $resultRawFactory,
         JsonFactory $resultJsonFactory,
-        Data $helperData
+        Data $isobarHelper,
+        \Magento\Checkout\Helper\Data $checkoutHelper
     ) {
         parent::__construct(
             $context,
@@ -79,15 +86,66 @@ class Index extends \Magento\Checkout\Controller\Index\Index
             $resultRawFactory,
             $resultJsonFactory
         );
-        $this->helperData = $helperData;
+        $this->isobarHelper = $isobarHelper;
+        $this->checkoutHelper = $checkoutHelper;
     }
 
+    /**
+     * @return \Magento\Framework\Controller\Result\Redirect|\Magento\Framework\Controller\ResultInterface|\Magento\Framework\View\Result\Page
+     */
     public function execute()
     {
-        if (!$this->helperData->isEnabled()) {
+        if (!$this->isobarHelper->isEnabled()) {
             return parent::execute();
         }
 
+        if (!$this->checkoutHelper->canOnepageCheckout()) {
+            $this->messageManager->addErrorMessage(__('One-page checkout is turned off.'));
+            return $this->resultRedirectFactory->create()->setPath('checkout/cart');
+        }
+        $quote = $this->getOnepage()->getQuote();
+        if (!$quote->hasItems() || $quote->getHasError() || !$quote->validateMinimumAmount()) {
+            return $this->resultRedirectFactory->create()->setPath('checkout/cart');
+        }
+        if (!$this->_customerSession->isLoggedIn() && !$this->checkoutHelper->isAllowedGuestCheckout($quote)) {
+            $this->messageManager->addErrorMessage(__('Guest checkout is disabled.'));
+            return $this->resultRedirectFactory->create()->setPath('checkout/cart');
+        }
+        if (!$this->isSecureRequest()) {
+            $this->_customerSession->regenerateId();
+        }
 
+        $this->_objectManager->get(\Magento\Checkout\Model\Session::class)->setCartWasUpdated(false);
+        $this->getOnepage()->initCheckout();
+        $resultPage = $this->resultPageFactory->create();
+
+        /* Set Handle and Block in here ... */
+
+
+        /* End set handle and Block */
+
+        $resultPage->getConfig()->getTitle()->set(__('Checkout'));
+        return $resultPage;
+
+    }
+
+    /**
+     * Checks if current request uses SSL and referer also is secure.
+     *
+     * @return bool
+     */
+    private function isSecureRequest(): bool
+    {
+        $request = $this->getRequest();
+
+        $referrer = $request->getHeader('referer');
+        $secure = false;
+
+        if ($referrer) {
+            $scheme = parse_url($referrer, PHP_URL_SCHEME);
+            $secure = $scheme === 'https';
+        }
+
+        return $secure && $request->isSecure();
     }
 }
