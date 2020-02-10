@@ -10,10 +10,13 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\Controller\Result\RawFactory;
+use Magento\Framework\Controller\Result\Redirect;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Data\Form\FormKey\Validator;
 use Magento\Framework\Registry;
 use Magento\Framework\Translate\InlineInterface;
 use Magento\Framework\View\Result\LayoutFactory;
+use Magento\Framework\View\Result\Page;
 use Magento\Framework\View\Result\PageFactory;
 use Magento\Quote\Api\CartRepositoryInterface;
 
@@ -91,7 +94,7 @@ class Index extends \Magento\Checkout\Controller\Index\Index
     }
 
     /**
-     * @return \Magento\Framework\Controller\Result\Redirect|\Magento\Framework\Controller\ResultInterface|\Magento\Framework\View\Result\Page
+     * @return Redirect|ResultInterface|Page
      */
     public function execute()
     {
@@ -120,7 +123,12 @@ class Index extends \Magento\Checkout\Controller\Index\Index
         $resultPage = $this->resultPageFactory->create();
 
         /* Set Handle and Block in here ... */
+        $resultPage->getLayout()->getUpdate()->addHandle('isobar_checkout');
 
+        /** @var \Magento\Checkout\Block\Onepage $checkoutBlock */
+        $checkoutBlock = $resultPage->getLayout()->getBlock('checkout.root');
+        $checkoutBlock->setTemplate('Isobar_Checkout::onepage.phtml')
+            ->setData('checkoutHelper', $this->isobarHelper);
 
         /* End set handle and Block */
 

@@ -10,9 +10,9 @@ use Magento\Framework\App\Config\ScopeConfigInterface;
  */
 class Data
 {
-    const ISOBAR_GENERAL_ENABLED = "isobar/general/enabled";
-    const ISOBAR_GENERAL_TITLE = "isobar/general/title";
-    const ISOBAR_GENERAL_DESCRIPTION = "isobar/general/description";
+    const ISOBAR_GENERAL_ENABLED = "isobar_checkout/general/enabled";
+    const ISOBAR_GENERAL_TITLE = "isobar_checkout/general/title";
+    const ISOBAR_GENERAL_DESCRIPTION = "isobar_checkout/general/description";
 
     /**
      * @var ScopeConfigInterface
