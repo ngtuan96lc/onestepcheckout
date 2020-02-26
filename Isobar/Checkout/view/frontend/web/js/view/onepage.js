@@ -25,6 +25,9 @@ define(
 
         return Component.extend({
 
+            initialize: function () {
+                this._super();
+            }
         });
     }
 );

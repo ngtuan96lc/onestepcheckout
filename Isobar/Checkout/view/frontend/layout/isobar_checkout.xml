@@ -6,8 +6,16 @@
                 <argument name="jsLayout" xsi:type="array">
                     <item name="components" xsi:type="array">
                         <item name="checkout" xsi:type="array">
-                            <item name="component" xsi:type="string">Isobar_Checkout/js/view/onepage</item>
                             <item name="children" xsi:type="array">
+                                <item name="sidebar" xsi:type="array">
+                                    <item name="component" xsi:type="string">uiComponent</item>
+                                    <item name="displayArea" xsi:type="string">sidebar</item>
+                                    <item name="config" xsi:type="array">
+                                        <item name="template" xsi:type="string">Isobar_Checkout/sidebar-summary</item>
+                                    </item>
+
+
+                                </item>
 
                             </item>
                         </item>
