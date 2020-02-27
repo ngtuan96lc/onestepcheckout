@@ -13,7 +13,15 @@
                                     <item name="config" xsi:type="array">
                                         <item name="template" xsi:type="string">Isobar_Checkout/sidebar-summary</item>
                                     </item>
-
+                                    <item name="children" xsi:type="array">
+                                        <item name="place-button" xsi:type="array">
+                                            <item name="component" xsi:type="string">Isobar_Checkout/js/view/place-button</item>
+                                            <item name="config" xsi:type="array">
+                                                <item name="template" xsi:type="string">Isobar_Checkout/place-button</item>
+                                                <item name="label" xsi:type="string" translate="true">Place Order</item>
+                                            </item>
+                                        </item>
+                                    </item>
 
                                 </item>
 

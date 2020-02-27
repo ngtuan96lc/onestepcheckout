@@ -1,0 +1,14 @@
+<div class="payment-methods">
+    <div class="action-toolbar">
+        <button class="action primary checkout isobar-checkout__btn-place-order"
+                type="submit"
+                data-bind="
+                    click: placeOrder,
+                    attr: {title: getLabel()},
+                    css: {disabled: !isPlaceOrderActionAllowed}
+                "
+                data-role="review-save">
+            <span data-bind="text: getLabel()"></span>
+        </button>
+    </div>
+</div>
