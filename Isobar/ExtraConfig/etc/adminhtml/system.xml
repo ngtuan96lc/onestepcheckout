@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <tab id="extra_config" translate="label" sortOrder="1100">
+            <label>Extra Config</label>
+        </tab>
+        <section id="isobar_extraconfig" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <resource>Isobar_ExtraConfig::config_extraconfig</resource>
+            <class>separator-top</class>
+            <label>Extra Configuration</label>
+            <tab>extra_config</tab>
+
+            <group id="general" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable Extra Config</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+            </group>
+
+            <group id="color_setting" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Color Setting</label>
+                <field id="color_scheme_template" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Color Scheme Template</label>
+                    <source_model>Isobar\ExtraConfig\Block\Adminhtml\System\Config\Source\ColorSchemeTemplate</source_model>
+                    <frontend_model>\Isobar\ExtraConfig\Block\Adminhtml\System\Config\Field\ColorSchemeTemplate</frontend_model>
+                </field>
+                <field id="color_text" translate="label comment" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Color Text</label>
+                    <frontend_model>\Isobar\ExtraConfig\Block\Adminhtml\System\Config\Field\ColorPicker</frontend_model>
+                </field>
+                <field id="color_background" translate="label comment" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Color Background</label>
+                    <frontend_model>\Isobar\ExtraConfig\Block\Adminhtml\System\Config\Field\ColorPicker</frontend_model>
+                </field>
+                <field id="color_hover" translate="label comment" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Color Hover</label>
+                    <frontend_model>\Isobar\ExtraConfig\Block\Adminhtml\System\Config\Field\ColorPicker</frontend_model>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
